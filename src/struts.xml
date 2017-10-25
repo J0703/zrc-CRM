@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!-- 打开开发者模式 -->
+    <constant name="struts.devMode" value="true"/>
+    <!-- 将struts2中的对象创建交给spring -->
+    <constant name="struts.objectFactory" value="spring"/>
+    <package name="crm" extends="json-default">
+        <action name="save"
+                class="com.xing.action.AdminAction"
+                method="saveInfo">
+            <result name="success">/success.jsp</result>
+            <result name="error">/success.jsp</result>
+        </action>
+        <action name="login"
+                class="com.xing.action.AdminAction"
+                method="login">
+            <result name="success">/pages/frame.jsp</result>
+            <result name="error">/pages/login.jsp</result>
+        </action>
+        <action name="findAll"
+                class="com.xing.action.AdminAction"
+                method="findAll">
+            <result name="success">pages/staff/listStaff.jsp</result>
+            <result name="error">pages/staff/listStaff.jsp</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,17 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.xing.domain.Post">
+        <id name="postId">
+            <generator class="uuid"/>
+        </id>
+        <property name="postName"/>
+        <property name="depId"/>
+        <many-to-one name="department" class="com.xing.domain.Department"/>
+        <set name="staffs" cascade="all">
+            <key column="postId"/>
+            <one-to-many class="com.xing.domain.Staff"/>
+        </set>
+    </class>
+</hibernate-mapping>
