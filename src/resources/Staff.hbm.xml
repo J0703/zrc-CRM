@@ -11,7 +11,11 @@
         <property name="loginPwd"/>
         <property name="gender"/>
         <property name="onDutyDate"/>
-        <property name="postId"/>
-        <many-to-one name="post" class="com.xing.domain.Post"/>
+        <many-to-one name="post"
+                     class="com.xing.domain.Post"
+                     lazy="false"
+                     fetch="select"
+                     column="postId"
+                     cascade="save-update"/>
     </class>
 </hibernate-mapping>

@@ -21,16 +21,9 @@ import java.util.Map;
 /**
  * Created by dllo on 17/10/24.
  */
-@Service("adminService")
 public class AdminServiceImpl implements AdminService {
-    @Autowired
-    @Qualifier("adminDao")
     private AdminDao adminDao;
-    @Autowired
-    @Qualifier("staffDao")
     private StaffDao staffDao;
-    @Autowired
-    @Qualifier("postDao")
     private PostDao postDao;
     @Override
     public void saveInfo(Department admin) {
@@ -39,27 +32,27 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Staff login(String name) {
-        String hql = "from Staff where loginName=:name";
-        Map<String,Object> params = new HashMap<>(10);
-        params.put("name",name);
-        List<Staff> staffs = staffDao.find(hql,params);
-        if (staffs.size() == 0){
-            return null;
-        }
-        return staffs.get(0);
+//        String hql = "from Staff where loginName=:name";
+//        Map<String,Object> params = new HashMap<>(10);
+//        params.put("name",name);
+//        List<Staff> staffs = staffDao.find(hql,params);
+//        if (staffs.size() == 0){
+//            return null;
+//        }
+        return null;
     }
 
     @Override
     public PageBean<Staff> findAll(int pageCode, int pageSize) {
-        PageBean<Staff> pb = new PageBean<>();
-        pb.setPageCode(pageCode);
-        pb.setPageSize(pageSize);
-        String hql = "from Staff";
-        List<Staff> staffs = staffDao.findPage(hql,pageCode,pageSize);
-        String hql2 = "select count(*) from Staff";
-        pb.setTotalRecode(staffDao.allCount(hql2));
-        pb.setBeanlist(staffs);
-        return pb;
+//        PageBean<Staff> pb = new PageBean<>();
+//        pb.setPageCode(pageCode);
+//        pb.setPageSize(pageSize);
+//        String hql = "from Staff";
+//        List<Staff> staffs = staffDao.findPage(hql,pageCode,pageSize);
+//        String hql2 = "select count(*) from Staff";
+//        pb.setTotalRecode(staffDao.allCount(hql2));
+//        pb.setBeanlist(staffs);
+        return null;
     }
 
     @Override
@@ -70,16 +63,40 @@ public class AdminServiceImpl implements AdminService {
     public List<Staff> findAll() {
         String hql = "from Staff";
         List<Staff> staffs = staffDao.find(hql,null);
+
         if (staffs.size() == 0){
             return null;
         }
-        String hql1 = "from Post WHERE postId=:id";
-        for (Staff staff : staffs) {
-            Map<String,Object> params = new HashMap<>(10);
-            params.put("id",staff.getPostId());
-            staff.setPost(postDao.find(hql1,params).get(0));
-        }
+//        String hql1 = "from Post WHERE postId=:id";
+//        for (Staff staff : staffs) {
+//            Map<String,Object> params = new HashMap<>(10);
+//            params.put("id",staff.getPostId());
+//            staff.setPost(postDao.find(hql1,params).get(0));
+//        }
         return staffs;
     }
 
+    public StaffDao getStaffDao() {
+        return staffDao;
+    }
+
+    public void setStaffDao(StaffDao staffDao) {
+        this.staffDao = staffDao;
+    }
+
+    public PostDao getPostDao() {
+        return postDao;
+    }
+
+    public void setPostDao(PostDao postDao) {
+        this.postDao = postDao;
+    }
+
+    public AdminDao getAdminDao() {
+        return adminDao;
+    }
+
+    public void setAdminDao(AdminDao adminDao) {
+        this.adminDao = adminDao;
+    }
 }

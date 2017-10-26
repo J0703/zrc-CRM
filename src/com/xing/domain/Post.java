@@ -9,7 +9,6 @@ import java.util.Set;
 public class Post {
     private String postId;
     private String postName;
-    private String depId;
     private Set<Staff> staffs = new HashSet<>();
     private Department department;
 
@@ -20,14 +19,10 @@ public class Post {
         this.postName = postName;
     }
 
-    public Post(String postName, String depId) {
-        this.postName = postName;
-        this.depId = depId;    }
-
-    public Post(String postId, String postName, String depId) {
+    public Post(String postId, String postName) {
         this.postId = postId;
         this.postName = postName;
-        this.depId = depId;
+
     }
 
     @Override
@@ -35,7 +30,6 @@ public class Post {
         return "post{" +
                 "postId='" + postId + '\'' +
                 ", postName='" + postName + '\'' +
-                ", depId='" + depId + '\'' +
                 '}';
     }
 
@@ -53,14 +47,6 @@ public class Post {
 
     public void setPostName(String postName) {
         this.postName = postName;
-    }
-
-    public String getDepId() {
-        return depId;
-    }
-
-    public void setDepId(String depId) {
-        this.depId = depId;
     }
 
     public Set<Staff> getStaffs() {

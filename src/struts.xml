@@ -28,5 +28,44 @@
             <result name="success">pages/staff/listStaff.jsp</result>
             <result name="error">pages/staff/listStaff.jsp</result>
         </action>
+        <action name="findAllDept"
+                class="com.xing.action.AdminAction"
+                method="findAllDept">
+            <result name="success" type="json">
+                <param name="root">departments</param>
+                <param name="includeProperties">
+                    \[\d\]\.depId,
+                    \[\d\]\.depName
+                </param>
+            </result>
+            <result name="error">pages/staff/listStaff.jsp</result>
+        </action>
+        <action name="findPostById"
+                class="com.xing.action.AdminAction"
+                method="findPostById">
+            <result name="success" type="json">
+                <param name="root">posts</param>
+                <param name="includeProperties">
+                    \[\d\]\.postId,
+                    \[\d\]\.postName
+                </param>
+            </result>
+            <result name="error">pages/staff/listStaff.jsp</result>
+        </action>
+        <action name="find"
+                class="com.xing.action.AdminAction"
+                method="find">
+            <result name="success">pages/staff/listStaff.jsp</result>
+        </action>
+        <action name="addStaff"
+                class="com.xing.action.AdminAction"
+                method="addStaff">
+            <result name="success">pages/staff/addStaff.jsp</result>
+        </action>
+        <action name="findStaffById"
+                class="com.xing.action.AdminAction"
+                method="findStaffById">
+            <result name="success">pages/staff/editStaff.jsp</result>
+        </action>
     </package>
 </struts>

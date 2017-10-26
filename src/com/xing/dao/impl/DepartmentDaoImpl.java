@@ -1,9 +1,9 @@
 package com.xing.dao.impl;
 
-import com.xing.dao.BaseDao;
+import com.xing.dao.DepartmentDao;
 import com.xing.dao.FindPageDao;
-import com.xing.dao.StaffDao;
-import com.xing.domain.Staff;
+import com.xing.domain.Department;
+import com.xing.domain.Post;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,16 +15,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by dllo on 17/10/25.
+ * Created by dllo on 17/10/26.
  */
-public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDao {
+
+public class DepartmentDaoImpl extends BaseDaoImpl<Department> implements DepartmentDao{
+
     @Override
-    public List<Staff> findPage(String hql, int pageCode, int pageSize) {
+    public List<Department> findPage(String hql, int pageCode, int pageSize) {
         Session session = currentSession();
         int start = (pageCode - 1) * pageSize ;
         Query query = session.createQuery(hql).setFirstResult(start).setMaxResults(pageSize);
-        List<Staff> tList = query.list();
+        List<Department> tList = query.list();
         return tList;// 返回查询结果集
     }
-
 }

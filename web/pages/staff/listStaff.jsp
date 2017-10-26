@@ -8,6 +8,38 @@
     <title>无标题文档</title>
 
     <link href="${pageContext.request.contextPath}/css/sys.css" type="text/css" rel="stylesheet"/>
+    <script src="../../js/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "post",
+                url:"${pageContext.request.contextPath}/findAllDept.action",
+                async: false,
+                dataType: "json",
+                success:function (posts) {
+                    for (var i = 0; i < posts.length; i++) {
+                        $("#department").append("<option value = '" + posts[i].depId + "'>" + posts[i].depName + "</option>");
+                    }
+                }
+            });
+            $("#department").change(function () {
+                $("#post>option").remove();
+                $.ajax({
+                    type: "post",
+                    url: "${pageContext.request.contextPath}/findPostById.action",
+                    async: false,
+                    dataType: "json",
+                    data: {"deptId":this.value},
+                    success:function (posts) {
+                        for (var i = 0; i < posts.length; i++) {
+                            $("#post").append("<option value = '" + posts[i].postId + "'>" + posts[i].postName + "</option>");
+                        }
+                    }
+                });
+            });
+        })
+    </script>
+
 </head>
 
 <body>
@@ -24,42 +56,32 @@
 
         <td width="57%" align="right">
             <%--高级查询 --%>
-            <a href="javascript:void(0)" onclick="condition()"><img
+            <a href="javascript:void(0)" onclick="document.forms[0].submit()"><img
                     src="${pageContext.request.contextPath}/images/button/gaojichaxun.gif"/></a>
             <%--员工注入 --%>
             <a href="${pageContext.request.contextPath}/pages/staff/addStaff.jsp">
                 <img src="${pageContext.request.contextPath}/images/button/tianjia.gif"/>
             </a>
-
         </td>
         <td width="3%" align="right"><img src="${pageContext.request.contextPath}/images/tright.gif"/></td>
     </tr>
 </table>
 
 <!-- 查询条件：马上查询 -->
-<form id="conditionFormId" action="${pageContext.request.contextPath}/staff/staffAction_findAll" method="post">
+<form id="conditionFormId" action="${pageContext.request.contextPath}/find.action" method="post">
     <table width="88%" border="0" style="margin: 20px;">
         <tr>
             <td width="80px">部门：</td>
             <td width="200px">
-
-                <select name="crmPost.crmDepartment.depId" onchange="changePost(this)">
-                    <option value="">--请选择部门--</option>
-                    <option value="ee050687bd1a4455a153d7bbb7000001">教学部</option>
-                    <option value="ee050687bd1a4455a153d7bbb7000002">咨询部</option>
+                <select id="department" name="deptId" onchange="changePost(this)">
+                    <option value="-1">--请选择部门--</option>
                 </select>
-
             </td>
             <td width="80px">职务：</td>
             <td width="200px">
-
-                <select name="crmPost.postId" id="postSelectId">
-                    <option value="">--请选择职务--</option>
-                    <option value="ee050687bd1a4455a153d7bbb7000003">总监</option>
-                    <option value="ee050687bd1a4455a153d7bbb7000004">讲师</option>
-                    <option value="ee050687bd1a4455a153d7bbb7000005">主管</option>
+                <select id="post" name="postId" id="postSelectId">
+                    <option value="-1">--请选择职务--</option>
                 </select>
-
             </td>
             <td width="80px">姓名：</td>
             <td width="200px"><input type="text" name="staffName" size="12"/></td>
@@ -90,10 +112,10 @@
             <td align="center">${staff.staffName }</td>
             <td align="center">${staff.gender}</td>
             <td align="center">${staff.onDutyDate }</td>
+            <td align="center">${staff.post.department.depName }</td>
             <td align="center">${staff.post.postName }</td>
-            <td align="center">${staff.loginName }</td>
             <td width="7%" align="center">
-                <a href="${pageContext.request.contextPath}/pages/staff/editStaff.jsp">
+                <a href="${pageContext.request.contextPath}/findStaffById.action?staffId=${staff.staffId}">
                     <img src="${pageContext.request.contextPath}/images/button/modify.gif" class="img"/>
                 </a>
             </td>

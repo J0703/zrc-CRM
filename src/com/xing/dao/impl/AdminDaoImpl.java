@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by dllo on 17/10/24.
  */
-@Repository("adminDao")
 public class AdminDaoImpl extends BaseDaoImpl<Department> implements AdminDao {
 
 }

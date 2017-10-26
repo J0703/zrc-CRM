@@ -12,20 +12,18 @@ public class Staff {
     private String staffName;
     private String gender;
     private Date onDutyDate;
-    private String postId;
-
     private Post post;
 
     public Staff() {
     }
 
-    public Staff(String loginName, String loginPwd, String staffName, String gender, Date onDutyDate, String postId) {
+    public Staff(String loginName, String loginPwd, String staffName, String gender, Date onDutyDate) {
         this.loginName = loginName;
         this.loginPwd = loginPwd;
         this.staffName = staffName;
         this.gender = gender;
         this.onDutyDate = onDutyDate;
-        this.postId = postId;
+
     }
 
     public Staff(String loginName, String loginPwd, String staffName, String gender) {
@@ -40,14 +38,15 @@ public class Staff {
         this.loginPwd = loginPwd;
     }
 
-    public Staff(String staffId, String loginName, String loginPwd, String staffName, String gender, Date onDutyDate, String postId) {
+    public Staff(String staffId, String loginName, String loginPwd, String staffName, String gender,
+                 Date onDutyDate) {
         this.staffId = staffId;
         this.loginName = loginName;
         this.loginPwd = loginPwd;
         this.staffName = staffName;
         this.gender = gender;
         this.onDutyDate = onDutyDate;
-        this.postId = postId;
+
     }
 
     @Override
@@ -59,7 +58,6 @@ public class Staff {
                 ", staffName='" + staffName + '\'' +
                 ", gender='" + gender + '\'' +
                 ", onDutyDate=" + onDutyDate +
-                ", postId='" + postId + '\'' +
                 '}';
     }
 
@@ -109,14 +107,6 @@ public class Staff {
 
     public void setOnDutyDate(Date onDutyDate) {
         this.onDutyDate = onDutyDate;
-    }
-
-    public String getPostId() {
-        return postId;
-    }
-
-    public void setPostId(String postId) {
-        this.postId = postId;
     }
 
     public Post getPost() {

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -40,17 +41,19 @@
 	<table width="88%" border="0" class="emp_table" style="width:80%;">
 	 <tr>
 	    <td>登录名：</td>
-	    <td><input type="text" name="loginName" value="赵六" /> </td>
+	    <td><input type="text" name="loginName" value="${staff.loginName}" /> </td>
 	    <td>密码：</td>
-	    <td><input type="password" name="loginPwd" value="54dfc11c8e9c49bab6068f473f913be9" /> </td>
+	    <td><input type="password" name="loginPwd" value="${staff.loginPwd}" /> </td>
 	  </tr>
 	 <tr>
 	    <td>姓名：</td>
-	    <td><input type="text" name="staffName" value="赵六" /> </td>
+	    <td><input type="text" name="staffName" value="${staff.staffName}" /> </td>
 	    <td>性别：</td>
+
 	    <td>
-	    	<input type="radio" name="gender" checked="checked" value="男"/>男
-	    	<input type="radio" name="gender" value="女"/>女
+
+			<input type="radio" name="gender" <c:if test="${staff.gender eq '男' }">checked="checked"</c:if> value="男"/>男
+			<input type="radio" name="gender" <c:if test="${staff.gender eq '女' }">checked="checked"</c:if> value="女"/>女
 	    </td>
 	  </tr>
 	 <tr>
@@ -75,7 +78,7 @@
 	  <tr>
 	    <td width="10%">入职时间：</td>
 	    <td width="20%">
-	    	<input type="text" name="onDutyDate" value="2012-02-12" readonly="readonly" onfocus="c.showMoreDay=true; c.show(this);"/>
+	    	<input type="text" name="onDutyDate" value="${staff.onDutyDate}" readonly="readonly" onfocus="c.showMoreDay=true; c.show(this);"/>
 	    </td>
 	    <td width="8%"></td>
 	    <td width="62%"></td>

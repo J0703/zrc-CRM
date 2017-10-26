@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,16 +16,12 @@ import java.util.Map;
 /**
  * Created by dllo on 17/10/24.
  */
-public class BaseDaoImpl<T> implements BaseDao<T> {
-    @Autowired
-    @Qualifier("sessionFactory")
-    private SessionFactory sessionFactory;
+public class BaseDaoImpl<T>  extends HibernateDaoSupport implements BaseDao<T> {
+
     @Override
     public void saveInfo(T t) {
-        Session session = sessionFactory.getCurrentSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = currentSession();
         session.save(t);
-        transaction.commit();
     }
 
     @Override
@@ -35,8 +32,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
     @Override
     public List<T> find(String hql, Map<String, Object> params) {
-        Session session = sessionFactory.getCurrentSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = currentSession();
         Query query = session.createQuery(hql).setFirstResult(0).setMaxResults(3);
         if (params != null && !params.isEmpty()){
             for (String key : params.keySet()) {
@@ -44,18 +40,16 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
             }
         }
         List<T> tList = query.list();
-        transaction.commit();
         return tList;// 返回查询结果集
     }
 
     @Override
     public int allCount(String hql) {
-        Session session = sessionFactory.getCurrentSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = currentSession();
         Query query = session.createQuery(hql);
         System.out.println(query.uniqueResult());
         Number num = (Number)query.uniqueResult();
-        transaction.commit();
+        System.out.println(num);
         return num.intValue();
     }
 

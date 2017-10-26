@@ -7,9 +7,13 @@
             <generator class="uuid"/>
         </id>
         <property name="postName"/>
-        <property name="depId"/>
-        <many-to-one name="department" class="com.xing.domain.Department"/>
-        <set name="staffs" cascade="all">
+        <many-to-one name="department"
+                     class="com.xing.domain.Department"
+                     lazy="false"
+                     fetch="select"
+                     column="depId"
+                     cascade="save-update"/>
+        <set name="staffs" table="Staff" lazy="false" cascade="all" inverse="false">
             <key column="postId"/>
             <one-to-many class="com.xing.domain.Staff"/>
         </set>

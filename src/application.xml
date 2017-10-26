@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- 配置spring的注解扫描根目录-->
     <context:component-scan base-package="com.xing"/>
     <!-- 配置hibernate -->
@@ -30,11 +32,60 @@
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.current_session_context_class">thread</prop>
             </props>
         </property>
         <!-- 加载实体类的hibernate映射文件 -->
-        <property name="mappingLocations"
-                  value="classpath:resources/*.hbm.xml"/>
+        <property name="mappingLocations">
+            <list>
+                <value>classpath:resources/Department.hbm.xml</value>
+                <value>classpath:resources/Post.hbm.xml</value>
+                <value>classpath:resources/Staff.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+    <!-- 3. 配置事物对象(切面) -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- 4. 配置事物属性 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--<tx:method name="find*"/>-->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 5. 配置spring aop -->
+    <aop:config>
+        <!-- 配置切点 -->
+        <aop:pointcut id="pointcut" expression="execution(* com.xing.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
+    </aop:config>
+
+    <bean id="staffDao"
+          class="com.xing.dao.impl.StaffDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- post设置 -->
+    <bean id="postDao" class="com.xing.dao.impl.PostDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="adminDao" class="com.xing.dao.impl.AdminDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="departmentDao" class="com.xing.dao.impl.DepartmentDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!--<bean id="staffService" class="com.xing.service.impl.StaffServiceImpl">-->
+        <!--<property name="staffDao" ref="staffDao"/>-->
+    <!--</bean>-->
+    <bean id="adminService" class="com.xing.service.impl.AdminServiceImpl">
+        <property name="adminDao" ref="adminDao"/>
+        <property name="postDao" ref="postDao"/>
+        <property name="staffDao" ref="staffDao"/>
     </bean>
 </beans>
