@@ -6,7 +6,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>无标题文档</title>
-
     <link href="${pageContext.request.contextPath}/css/sys.css" type="text/css" rel="stylesheet"/>
     <script src="../../js/jquery-3.2.1.js"></script>
     <script type="text/javascript">
@@ -31,6 +30,7 @@
                     dataType: "json",
                     data: {"deptId":this.value},
                     success:function (posts) {
+                        $("#post").append("<option value='-1'>--请选择职务--</option>");
                         for (var i = 0; i < posts.length; i++) {
                             $("#post").append("<option value = '" + posts[i].postId + "'>" + posts[i].postName + "</option>");
                         }

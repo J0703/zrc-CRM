@@ -16,7 +16,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -107,16 +109,29 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
     public String findStaffById(){
         String staffId = staff.getStaffId();
         Staff staff = staffService.findStaffById(staffId);
-
         System.out.println(staff);
         ServletActionContext.getRequest().setAttribute("staff",staff);
         return SUCCESS;
     }
 
     public String find(){
-        System.out.println(deptId);
-        System.out.println(postId);
-        System.out.println(staffName);
+        Map<String,Object> params = new HashMap<>(10);
+        int pageCode = getPc();
+        int pageSize = 3;
+        if (!"-1".equals(deptId)){
+            params.put("depId",deptId);
+            if (!"-1".equals(posts)){
+                params.put("postId",postId);
+            }
+        }
+        if (!"".equals(staff.getStaffName())){
+            params.put("staffName",staff.getStaffName());
+        }
+        System.out.println(params.size());
+        PageBean<Staff> pb =  staffService.higherQuery(pageCode,pageSize,params);
+        pb.setPageCode(pageCode);
+        pb.setPageSize(pageSize);
+        ServletActionContext.getRequest().setAttribute("pb",pb);
         return SUCCESS;
     }
 

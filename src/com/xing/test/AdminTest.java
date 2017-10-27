@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dllo on 17/10/24.
@@ -53,12 +55,12 @@ public class AdminTest {
     }
     @Test
     public void gaojichaxun(){
-        DepartmentService departmentService = (DepartmentService) context.getBean("departmentService");
-        PageBean<Department> staffPageBean = departmentService.findPageBean(1,2);
-        for (Department department : staffPageBean.getBeanlist()) {
-            for (Post post : department.getPosts()) {
-
-            }
-        }
+        StaffService staffService = (StaffService) context.getBean("staffService");
+//        PageBean<Staff> staffPageBean = staffService.higherQuery(1,2);
+//        for (Staff staff : staffPageBean.getBeanlist()) {
+//            System.out.println(staff);
+//        }
     }
+
+
 }

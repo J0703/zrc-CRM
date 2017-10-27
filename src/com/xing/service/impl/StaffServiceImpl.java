@@ -53,6 +53,31 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
+    public PageBean<Staff> higherQuery(int pageCode, int pageSize, Map<String,Object> params) {
+        PageBean<Staff> pb = new PageBean<>();
+        pb.setPageCode(pageCode);
+        pb.setPageSize(pageSize);
+        int start = (pageCode - 1) * pageSize;
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM Department NATURAL JOIN Post NATURAL JOIN Staff WHERE 1=1");
+        if (params.get("depId") != null ){
+            sql.append(" AND depId=:depId");
+            if (params.get("postId") != null){
+                sql.append(" AND postId=:postId");
+            }
+        }
+        if (params.get("staffName") != null){
+            sql.append(" AND staffName=:staffName");
+        }
+        sql.append(" LIMIT :start,:size");
+        params.put("start",start);
+        params.put("size",pageSize);
+        List<Staff> staffs = staffDao.higherFind(sql.toString(),params);
+        pb.setBeanlist(staffs);
+        return pb;
+    }
+
+    @Override
     public Staff login(String name) {
         String hql = "from Staff where loginName=:name";
         Map<String,Object> params = new HashMap<>(10);
