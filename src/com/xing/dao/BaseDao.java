@@ -30,4 +30,5 @@ public interface BaseDao<T> {
      */
     List<T> find(String hql, Map<String, Object> params);
     int allCount(String hql);
+    int higherFindCount(String sql,Map<String,Object> params);
 }

@@ -1,10 +1,8 @@
 package com.xing.dao.impl;
 
 import com.xing.dao.BaseDao;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import com.xing.domain.Staff;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
@@ -49,6 +47,21 @@ public class BaseDaoImpl<T>  extends HibernateDaoSupport implements BaseDao<T> {
         Query query = session.createQuery(hql);
         System.out.println(query.uniqueResult());
         Number num = (Number)query.uniqueResult();
+        System.out.println(num);
+        return num.intValue();
+    }
+
+    @Override
+    public int higherFindCount(String sql,Map<String,Object> params) {
+        Session session = currentSession();
+        SQLQuery sqlQuery = session.createSQLQuery(sql);
+        if (params != null && !params.isEmpty()){
+            for (String key : params.keySet()) {
+                System.out.println(params.get(key));
+                sqlQuery.setParameter(key,params.get(key));
+            }
+        }
+        Number num = (Number)sqlQuery.uniqueResult();
         System.out.println(num);
         return num.intValue();
     }

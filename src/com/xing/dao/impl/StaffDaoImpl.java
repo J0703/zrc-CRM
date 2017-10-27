@@ -32,7 +32,7 @@ public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDao {
         SQLQuery sqlQuery = session.createSQLQuery(sql).addEntity(Staff.class);
         if (params != null && !params.isEmpty()){
             for (String key : params.keySet()) {
-                System.out.println(key);
+                System.out.println(params.get(key));
                 sqlQuery.setParameter(key,params.get(key));
             }
         }

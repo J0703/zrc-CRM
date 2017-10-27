@@ -59,16 +59,22 @@ public class StaffServiceImpl implements StaffService {
         pb.setPageSize(pageSize);
         int start = (pageCode - 1) * pageSize;
         StringBuilder sql = new StringBuilder();
+        StringBuilder sql2 = new StringBuilder();
         sql.append("SELECT * FROM Department NATURAL JOIN Post NATURAL JOIN Staff WHERE 1=1");
+        sql2.append("SELECT count(*) FROM Department NATURAL JOIN Post NATURAL JOIN Staff WHERE 1=1");
         if (params.get("depId") != null ){
             sql.append(" AND depId=:depId");
+            sql2.append(" AND depId=:depId");
             if (params.get("postId") != null){
                 sql.append(" AND postId=:postId");
+                sql2.append(" AND postId=:postId");
             }
         }
         if (params.get("staffName") != null){
             sql.append(" AND staffName=:staffName");
+            sql2.append(" AND staffName=:staffName");
         }
+        pb.setTotalRecode(staffDao.higherFindCount(sql2.toString(),params));
         sql.append(" LIMIT :start,:size");
         params.put("start",start);
         params.put("size",pageSize);

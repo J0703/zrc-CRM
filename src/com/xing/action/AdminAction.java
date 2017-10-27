@@ -83,7 +83,6 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         int pageCode = getPc();
         int pageSize = 3;
         PageBean<Staff> pb = staffService.findAll(pageCode,pageSize);
-        System.out.println(pb.getTotalPage());
         ServletActionContext.getRequest().setAttribute("pb",pb);
         return SUCCESS;
     }
@@ -120,7 +119,7 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         int pageSize = 3;
         if (!"-1".equals(deptId)){
             params.put("depId",deptId);
-            if (!"-1".equals(posts)){
+            if (!"-1".equals(postId)){
                 params.put("postId",postId);
             }
         }
@@ -131,6 +130,7 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         PageBean<Staff> pb =  staffService.higherQuery(pageCode,pageSize,params);
         pb.setPageCode(pageCode);
         pb.setPageSize(pageSize);
+        System.out.println(pb.getTotalPage());
         ServletActionContext.getRequest().setAttribute("pb",pb);
         return SUCCESS;
     }
