@@ -2,6 +2,7 @@ package com.xing.service.impl;
 
 import com.xing.dao.StaffDao;
 import com.xing.domain.PageBean;
+import com.xing.domain.Post;
 import com.xing.domain.Staff;
 import com.xing.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class StaffServiceImpl implements StaffService {
         staffDao.saveInfo(staff);
     }
 
+    @Override
+    public void updateStaff(Staff staff) { staffDao.updateInfo(staff);}
     @Override
     public Staff findStaffById(String staffId) {
         String hql = "from Staff where staffId=:staffId";

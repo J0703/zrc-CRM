@@ -10,15 +10,30 @@
     <script src="../../js/jquery-3.2.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            alert("${ps.depId}");
             $.ajax({
                 type: "post",
-                url:"${pageContext.request.contextPath}/findAllDept.action",
+                url: "${pageContext.request.contextPath}/findAllDept.action",
                 async: false,
                 dataType: "json",
-                success:function (posts) {
+                success: function (posts) {
                     for (var i = 0; i < posts.length; i++) {
-                        $("#department").append("<option value = '" + posts[i].depId + "'>" + posts[i].depName + "</option>");
+                        $("#department").append("<option name='depId' id='" + posts[i].depId + "' value = '" + posts[i].depId + "'>" + posts[i].depName + "</option>");
                     }
+                    $("#" + "${ps.depId}").attr("selected", true);
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "${pageContext.request.contextPath}/findPostById.action",
+                async: false,
+                Type: "json",
+                data: {"deptId": "${ps.depId}"},
+                success: function (posts) {
+                    for (var i = 0; i < posts.length; i++) {
+                        $("#post").append("<option name='postId' id='" + posts[i].postId + "' value = '" + posts[i].postId + "'>" + posts[i].postName + "</option>");
+                    }
+                    $("#" + "${ps.postId}").attr("selected", true);
                 }
             });
             $("#department").change(function () {
@@ -28,8 +43,8 @@
                     url: "${pageContext.request.contextPath}/findPostById.action",
                     async: false,
                     dataType: "json",
-                    data: {"deptId":this.value},
-                    success:function (posts) {
+                    data: {"deptId": this.value},
+                    success: function (posts) {
                         $("#post").append("<option value='-1'>--请选择职务--</option>");
                         for (var i = 0; i < posts.length; i++) {
                             $("#post").append("<option value = '" + posts[i].postId + "'>" + posts[i].postName + "</option>");
@@ -122,8 +137,6 @@
         </tr>
     </c:forEach>
 </table>
-
-
 <table border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
         <td align="right">
@@ -131,18 +144,15 @@
             <span>
         	<a href="">[首页]</a>&nbsp;&nbsp;
             <c:if test="${pb.pageCode > 1}">
-                <a href="findAll.action?pageCode=${pb.pageCode - 1}">[上一页]</a>&nbsp;&nbsp;
+                <a href="find.action?pageCode=${pb.pageCode - 1}&deptId=${ps.depId}& postId=${ps.postId}& staffName=${ps.staffName}">[上一页]</a>&nbsp;&nbsp;
             </c:if>
             <c:if test="${pb.pageCode<pb.totalPage}">
-                <a href="findAll.action?pageCode=${pb.pageCode + 1}">[下一页]</a>&nbsp;&nbsp;
+                <a href="find.action?pageCode=${pb.pageCode + 1}&deptId=${ps.depId}& postId=${ps.postId}& staffName=${ps.staffName}">[下一页]</a>&nbsp;&nbsp;
             </c:if>
-
-
             <a href="#">[尾页]</a>
         </span>
         </td>
     </tr>
 </table>
-
 </body>
 </html>

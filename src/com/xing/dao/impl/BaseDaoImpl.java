@@ -66,4 +66,10 @@ public class BaseDaoImpl<T>  extends HibernateDaoSupport implements BaseDao<T> {
         return num.intValue();
     }
 
+    @Override
+    public void updateInfo(T t) {
+        Session session = currentSession();
+        session.merge(t);
+    }
+
 }

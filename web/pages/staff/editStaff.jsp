@@ -12,13 +12,27 @@
         $(document).ready(function () {
             $.ajax({
                 type: "post",
-                url: "${pageContext.request.contextPath}/findAllDept.action",
+                url:"${pageContext.request.contextPath}/findAllDept.action",
                 async: false,
                 dataType: "json",
+                success:function (posts) {
+                    for (var i = 0; i < posts.length; i++) {
+                        $("#department").append("<option name='depId' id='" + posts[i].depId + "' value = '" + posts[i].depId + "'>" + posts[i].depName + "</option>");
+                    }
+                    $("#"+"${staff.post.department.depId}").attr("selected",true);
+                }
+            });
+            $.ajax({
+                type: "post",
+                url: "${pageContext.request.contextPath}/findPostById.action",
+                async: false,
+                dataType: "json",
+                data: {"deptId": "${staff.post.department.depId}"},
                 success: function (posts) {
                     for (var i = 0; i < posts.length; i++) {
-                        $("#department").append("<option value = '" + posts[i].depId + "'>" + posts[i].depName + "</option>");
+                        $("#post").append("<option name='postId' id='" + posts[i].postId + "' value = '" + posts[i].postId + "'>" + posts[i].postName + "</option>");
                     }
+                    $("#"+"${staff.post.postId}").attr("selected",true);
                 }
             });
             $("#department").change(function () {
@@ -32,7 +46,7 @@
                     success: function (posts) {
                         $("#post").append("<option value='-1'>--请选择职务--</option>");
                         for (var i = 0; i < posts.length; i++) {
-                            $("#post").append("<option value = '" + posts[i].postId + "'>" + posts[i].postName + "</option>");
+                            $("#post").append("<option name='postId' value = '" + posts[i].postId + "'>" + posts[i].postName + "</option>");
                         }
                     }
                 });
@@ -67,10 +81,7 @@
     </tr>
 </table>
 
-<form action="/crm2/staff/staffAction_edit.action" method="post">
-
-    <input type="hidden" name="staffId" value="2c9091c14c78e58b014c78e7ecd90007"/>
-
+<form action="updateStaff.action?staffId=${staff.staffId}" method="post">
     <table width="88%" border="0" class="emp_table" style="width:80%;">
         <tr>
             <td>登录名：</td>
@@ -92,15 +103,15 @@
         <tr>
             <td width="10%">所属部门：</td>
             <td width="20%">
-                <select id="department" name="depId" onchange="changePost(this)">
-                    <option value="">----请--选--择----</option>
+                <select id="department" name="depId">
+                    <option value="-1">-----请选择-----</option>
                 </select>
 
             </td>
             <td width="8%">职务：</td>
             <td width="62%">
-                <select name="postId" id="post">
-                    <option value="">----请--选--择----</option>
+                <select  name="postId" id="post">
+                    <option value="-1">-----请选择-----</option>
                 </select>
             </td>
         </tr>

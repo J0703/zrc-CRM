@@ -67,5 +67,16 @@
                 method="findStaffById">
             <result name="success">pages/staff/editStaff.jsp</result>
         </action>
+        <action name="updateStaff"
+                class="com.xing.action.AdminAction"
+                method="updateStaff">
+            <result name="success">pages/staff/editStaff.jsp</result>
+        </action>
+        <action name="findAllDept1"
+                class="com.xing.action.DepartmentAction"
+                method="findAllDept">
+            <result name="success">pages/department/listDepartment.jsp</result>
+            <result name="error">pages/staff/listStaff.jsp</result>
+        </action>
     </package>
 </struts>

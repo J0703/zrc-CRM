@@ -42,6 +42,7 @@ public class AdminTest {
     @Test
     public void findAllDept(){
         AdminAction adminAction = (AdminAction) context.getBean("adminAction");;
+        adminAction.findAllDept();
     }
 
     @Test
@@ -61,6 +62,8 @@ public class AdminTest {
 //            System.out.println(staff);
 //        }
     }
+
+
 
 
 }

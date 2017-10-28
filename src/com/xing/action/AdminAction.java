@@ -40,7 +40,7 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
     private DepartmentService departmentService;
 
 
-    private String pageCode;
+    private int pageCode;
     private List<Department> departments;
     private String deptId;
     private String postId;
@@ -51,19 +51,56 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
 
     public String saveInfo() {
         Staff staff = new Staff("zhangsan", "123","张三","男");
-        Staff staff1 = new Staff("lisi", "123");
+        Staff staff1 = new Staff("lisi", "123","李四","男");
+        Staff staff2 = new Staff("1", "1","1","男");
+        Staff staff3 = new Staff("2", "2","2","男");
+        Staff staff4 = new Staff("3", "3","3","男");
+        Staff staff5 = new Staff("4", "4","4","男");
+        Staff staff6 = new Staff("5", "5","5","男");
+        Staff staff7 = new Staff("6", "6","6","男");
+
         Post post = new Post("java讲师");
         Post post2 = new Post("H5讲师");
+        Post post3 = new Post("职规总监");
+        Post post4 = new Post("班主任");
+
         Department department = new Department("教学部");
+        Department department1 = new Department("职规部");
+
         staff.setPost(post);
-        staff1.setPost(post2);
+        staff1.setPost(post);
+        staff2.setPost(post2);
+        staff3.setPost(post2);
+
+        staff4.setPost(post3);
+        staff5.setPost(post3);
+        staff6.setPost(post4);
+        staff7.setPost(post4);
+
         post.getStaffs().add(staff);
-        post2.getStaffs().add(staff1);
+        post.getStaffs().add(staff1);
+        post2.getStaffs().add(staff2);
+        post2.getStaffs().add(staff3);
+
+        post3.getStaffs().add(staff5);
+        post3.getStaffs().add(staff6);
+        post4.getStaffs().add(staff7);
+        post4.getStaffs().add(staff4);
+
         post.setDepartment(department);
         post2.setDepartment(department);
+        post4.setDepartment(department1);
+        post3.setDepartment(department1);
+
         department.getPosts().add(post);
         department.getPosts().add(post2);
+
+        department1.getPosts().add(post3);
+        department1.getPosts().add(post4);
+
         adminService.saveInfo(department);
+        adminService.saveInfo(department1);
+
         return ERROR;
     }
 
@@ -89,6 +126,7 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
 
     public String findAllDept(){
         departments = departmentService.findAllDept();
+        ServletActionContext.getRequest().setAttribute("dps",departments);
         return SUCCESS;
     }
 
@@ -108,7 +146,6 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
     public String findStaffById(){
         String staffId = staff.getStaffId();
         Staff staff = staffService.findStaffById(staffId);
-        System.out.println(staff);
         ServletActionContext.getRequest().setAttribute("staff",staff);
         return SUCCESS;
     }
@@ -117,24 +154,30 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         Map<String,Object> params = new HashMap<>(10);
         int pageCode = getPc();
         int pageSize = 3;
-        if (!"-1".equals(deptId)){
+        if (!"-1".equals(deptId) && !"".equals(deptId) && deptId !=null){
             params.put("depId",deptId);
-            if (!"-1".equals(postId)){
+            if (!"-1".equals(postId) && !"".equals(postId) && postId !=null){
                 params.put("postId",postId);
             }
         }
-        if (!"".equals(staff.getStaffName())){
+        if (!"".equals(staff.getStaffName())  && staff.getStaffName() !=null ){
             params.put("staffName",staff.getStaffName());
         }
-        System.out.println(params.size());
         PageBean<Staff> pb =  staffService.higherQuery(pageCode,pageSize,params);
         pb.setPageCode(pageCode);
         pb.setPageSize(pageSize);
-        System.out.println(pb.getTotalPage());
         ServletActionContext.getRequest().setAttribute("pb",pb);
+        ServletActionContext.getRequest().setAttribute("ps",params);
         return SUCCESS;
     }
 
+    public String updateStaff(){
+        System.out.println(postId);
+        Post post =  postService.findPostByPid(postId);
+        staff.setPost(post);
+        staffService.updateStaff(staff);
+        return SUCCESS;
+    }
 
     private int getPc() {
 		/*
@@ -144,18 +187,18 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
 		 */
         System.out.println(pageCode);
 
-        if (pageCode == null || pageCode.trim().isEmpty() || Integer.valueOf(pageCode) <= 0){
+        if (pageCode == 0){
             return 1;
         }
-        return Integer.parseInt(pageCode);
-    }
-
-
-    public String getPageCode() {
         return pageCode;
     }
 
-    public void setPageCode(String pageCode) {
+
+    public int getPageCode() {
+        return pageCode;
+    }
+
+    public void setPageCode(int pageCode) {
         this.pageCode = pageCode;
     }
 
