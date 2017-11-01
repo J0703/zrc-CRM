@@ -32,7 +32,7 @@
   </tr>
 </table>
 
-<form action="/crm2/classesm/classAction_upload.action" method="post" enctype="multipart/form-data">
+<form action="singleUpload.action" method="post" enctype="multipart/form-data">
 	<table width="88%" border="0" class="emp_table" style="width:80%;">
 	  <tr>
 	    <td width="120">课程类别：</td>
@@ -56,7 +56,7 @@
 	  </tr>
 	  <tr>
 	    <td colspan="3">
-	    	<input type="file" name="schedule" value="" />
+	    	<input type="file" name="photo"/>
 	    </td>
 	  </tr>
 	</table>

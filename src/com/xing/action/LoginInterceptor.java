@@ -11,12 +11,11 @@ import org.apache.struts2.ServletActionContext;
 public class LoginInterceptor extends AbstractInterceptor {
     @Override
     public String intercept(ActionInvocation actionInvocation) throws Exception {
-        Staff staff = (Staff) ServletActionContext.getContext().getSession().get("user");
+        Staff staff = (Staff) ServletActionContext.getContext().getApplication().get("user");
         if (staff!= null){
             return actionInvocation.invoke();
         }
         ServletActionContext.getContext().getSession().put("msg","你还没登陆呢,你咋知道这种操作的");
         return "error";
-
     }
 }

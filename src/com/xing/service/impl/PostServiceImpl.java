@@ -22,6 +22,12 @@ public class PostServiceImpl implements PostService {
     private PostDao postDao;
 
     @Override
+    public List<Post> findAllPost() {
+        String hql = "from Post";
+        return postDao.find(hql,null);
+    }
+
+    @Override
     public Post findPostByPid(String pId) {
         String hql = "from Post WHERE postId=:pId";
         Map<String,Object> params = new HashMap<>();
@@ -53,6 +59,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public PageBean<Post> query(int pageCode, int pageSize) {
         return null;
+    }
+
+    @Override
+    public void saveInfo(Post post) {
+        postDao.saveInfo(post);
+    }
+
+    @Override
+    public void updatePost(Post post) {
+        postDao.updateInfo(post);
     }
 
     public PostDao getPostDao() {

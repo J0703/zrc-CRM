@@ -110,7 +110,7 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         String loginPwd = staff.getLoginPwd();
         Staff staff = staffService.login(loginName);
         if (staff != null && staff.getLoginPwd().equals(loginPwd)) {
-            ActionContext.getContext().getSession().put("user", staff);
+            ActionContext.getContext().getApplication().put("user", staff);
             return SUCCESS;
         }
         addActionError("账号密码错误");
@@ -118,7 +118,7 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
     }
 
     public String outLogin(){
-        ServletActionContext.getContext().getSession().remove("user");
+        ServletActionContext.getContext().getApplication().remove("user");
         return SUCCESS;
     }
 
@@ -171,7 +171,6 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
             addActionError("你不是这个部门的管理可就憋点这个了");
         }
     }
-
     public String find(){
         Map<String,Object> params = new HashMap<>(10);
         int pageCode = getPc();
