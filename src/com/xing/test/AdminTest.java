@@ -53,7 +53,7 @@ public class AdminTest {
 
     }
     @Test
-    public void gaojichaxun(){
+    public void advancedQuery(){
         StaffService staffService = (StaffService) context.getBean("staffService");
 //        PageBean<Staff> staffPageBean = staffService.higherQuery(1,2);
 //        for (Staff staff : staffPageBean.getBeanlist()) {
