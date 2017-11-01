@@ -164,7 +164,7 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
     public void validateFindStaffById(){
         String staffId = staff.getStaffId();
         Staff staff = staffService.findStaffById(staffId);
-        Staff staff2 = (Staff) ServletActionContext.getContext().getSession().get("user");
+        Staff staff2 = (Staff) ServletActionContext.getContext().getApplication().get("user");
         String depId1 = staff.getPost().getDepartment().getDepId();
         String depId2 = staff2.getPost().getDepartment().getDepId();
         if (!depId2.equals(depId1)){
