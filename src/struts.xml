@@ -10,6 +10,9 @@
     <!-- 将struts2中的对象创建交给spring -->
     <constant name="struts.objectFactory" value="spring"/>
     <package name="crm" extends="json-default">
+        <interceptors>
+            <interceptor name="actionTimInterceptor" class="com.xing.action.LoginInterceptor"/>
+        </interceptors>
         <action name="save"
                 class="com.xing.action.AdminAction"
                 method="saveInfo">
@@ -22,11 +25,19 @@
             <result name="success">/pages/frame.jsp</result>
             <result name="error">/pages/login.jsp</result>
         </action>
+        <action name="outlogin"
+                class="com.xing.action.AdminAction"
+                method="outLogin">
+            <interceptor-ref name="actionTimInterceptor"/>
+            <result name="success">/pages/login.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
         <action name="findAll"
                 class="com.xing.action.AdminAction"
                 method="findAll">
+            <interceptor-ref name="actionTimInterceptor"/>
             <result name="success">pages/staff/listStaff.jsp</result>
-            <result name="error">pages/staff/listStaff.jsp</result>
+            <result name="error">pages/error.jsp</result>
         </action>
         <action name="findAllDept"
                 class="com.xing.action.AdminAction"
@@ -42,7 +53,7 @@
         </action>
         <action name="findPostById"
                 class="com.xing.action.AdminAction"
-                method="findPostById">
+                method="findPostsById">
             <result name="success" type="json">
                 <param name="root">posts</param>
                 <param name="includeProperties">
@@ -51,6 +62,11 @@
                 </param>
             </result>
             <result name="error">pages/staff/listStaff.jsp</result>
+        </action>
+        <action name="findPostByPid"
+                class="com.xing.action.AdminAction"
+                method="findPostByPid">
+            <result name="success">/pages/post/addOrEditPost.jsp</result>
         </action>
         <action name="find"
                 class="com.xing.action.AdminAction"
@@ -66,6 +82,8 @@
                 class="com.xing.action.AdminAction"
                 method="findStaffById">
             <result name="success">pages/staff/editStaff.jsp</result>
+            <result name="error">pages/staff/listStaff.jsp</result>
+            <result name="input">pages/staff/listStaff.jsp</result>
         </action>
         <action name="updateStaff"
                 class="com.xing.action.AdminAction"
@@ -75,8 +93,28 @@
         <action name="findAllDept1"
                 class="com.xing.action.DepartmentAction"
                 method="findAllDept">
+            <interceptor-ref name="actionTimInterceptor"/>
             <result name="success">pages/department/listDepartment.jsp</result>
-            <result name="error">pages/staff/listStaff.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+        <action name="findAllDept2"
+                class="com.xing.action.DepartmentAction"
+                method="findAllDept">
+            <interceptor-ref name="actionTimInterceptor"/>
+            <result name="success">/pages/post/listPost.jsp</result>
+            <result name="error">pages/error.jsp</result>
+        </action>
+        <action name="saveDept"
+                class="com.xing.action.DepartmentAction"
+                method="saveDepartment">
+            <result name="success">/pages/department/addOrEditDepartment.jsp</result>
+            <result name="error">/pages/department/addOrEditDepartment.jsp</result>
+        </action>
+        <action name="findDept"
+                class="com.xing.action.DepartmentAction"
+                method="findDepById">
+            <result name="success">pages/department/addOrEditDepartment.jsp</result>
+            <result name="error">/pages/department/addOrEditDepartment.jsp</result>
         </action>
     </package>
 </struts>

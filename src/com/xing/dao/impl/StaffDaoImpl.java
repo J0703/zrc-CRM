@@ -28,11 +28,9 @@ public class StaffDaoImpl extends BaseDaoImpl<Staff> implements StaffDao {
     @Override
     public List<Staff> higherFind(String sql, Map<String,Object> params) {
         Session session = currentSession();
-        System.out.println(sql);
         SQLQuery sqlQuery = session.createSQLQuery(sql).addEntity(Staff.class);
         if (params != null && !params.isEmpty()){
             for (String key : params.keySet()) {
-                System.out.println(params.get(key));
                 sqlQuery.setParameter(key,params.get(key));
             }
         }

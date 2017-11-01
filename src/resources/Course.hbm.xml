@@ -1,0 +1,18 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.xing.domain.Course">
+        <id name="couId">
+            <generator class="uuid"/>
+        </id>
+        <property name="couName"/>
+        <property name="couCost"/>
+        <property name="total"/>
+        <property name="remark"/>
+        <set name="classes" table="Classes" lazy="false" cascade="all" inverse="true">
+            <key column="couId"/>
+            <one-to-many class="com.xing.domain.Classes"/>
+        </set>
+    </class>
+</hibernate-mapping>

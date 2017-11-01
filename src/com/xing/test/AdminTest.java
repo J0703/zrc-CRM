@@ -1,11 +1,9 @@
 package com.xing.test;
 
 import com.xing.action.AdminAction;
+import com.xing.dao.ClassesDao;
 import com.xing.dao.StaffDao;
-import com.xing.domain.Department;
-import com.xing.domain.PageBean;
-import com.xing.domain.Post;
-import com.xing.domain.Staff;
+import com.xing.domain.*;
 import com.xing.service.DepartmentService;
 import com.xing.service.PostService;
 import com.xing.service.StaffService;
@@ -63,7 +61,50 @@ public class AdminTest {
 //        }
     }
 
+    @Test
+    public void findDepById(){
+        DepartmentService departmentService = (DepartmentService) context.getBean("departmentService");
+        System.out.println(departmentService.findDeptById("2c9090275f5cc4c3015f5cc4c9ca0000"));
+    }
 
 
+    @Test
+    public void saveClasses(){
+        ClassesDao classesDao = (ClassesDao) context.getBean("classesDao");
+        Course course = new Course("java",18888,200);
+        Course course1 = new Course("HTML",16666,150);
+        Classes classes = new Classes("java0703");
+        Classes classes1 = new Classes("java0804");
+        Classes classes2 = new Classes("HTML0905");
+        Classes classes3 = new Classes("HTML1006");
+        Schedule schedule = new Schedule("课程1");
+        Schedule schedule2 = new Schedule("课程2");
+
+        schedule.getClasses().add(classes);
+        schedule.getClasses().add(classes1);
+        schedule2.getClasses().add(classes2);
+        schedule2.getClasses().add(classes3);
+
+        classes.setSchedule(schedule);
+        classes1.setSchedule(schedule);
+        classes2.setSchedule(schedule2);
+        classes3.setSchedule(schedule2);
+
+        course.getClasses().add(classes);
+        course.getClasses().add(classes1);
+        course1.getClasses().add(classes2);
+        course1.getClasses().add(classes3);
+
+        classes.setCourse(course);
+        classes1.setCourse(course);
+        classes2.setCourse(course1);
+        classes3.setCourse(course1);
+
+        classesDao.saveInfo(classes);
+        classesDao.saveInfo(classes1);
+        classesDao.saveInfo(classes2);
+        classesDao.saveInfo(classes3);
+
+    }
 
 }

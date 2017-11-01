@@ -1,0 +1,31 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.xing.domain.Classes">
+        <id name="classId">
+            <generator class="uuid"/>
+        </id>
+        <property name="name"/>
+        <property name="beginTime"/>
+        <property name="endTime"/>
+        <property name="totalCount"/>
+        <property name="upgradeCount"/>
+        <property name="changeCount"/>
+        <property name="runoffCount"/>
+        <property name="remark"/>
+        <many-to-one name="course"
+                     class="com.xing.domain.Course"
+                     lazy="false"
+                     fetch="select"
+                     column="couId"
+                     cascade="save-update"/>
+        <many-to-one name="schedule"
+                     class="com.xing.domain.Schedule"
+                     lazy="false"
+                     fetch="select"
+                     column="scId"
+                     cascade="save-update"/>
+
+    </class>
+</hibernate-mapping>

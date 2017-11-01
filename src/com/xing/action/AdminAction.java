@@ -9,6 +9,7 @@ import com.xing.service.AdminService;
 import com.xing.service.DepartmentService;
 import com.xing.service.PostService;
 import com.xing.service.StaffService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -116,6 +117,11 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         return ERROR;
     }
 
+    public String outLogin(){
+        ServletActionContext.getContext().getSession().remove("user");
+        return SUCCESS;
+    }
+
     public String findAll() {
         int pageCode = getPc();
         int pageSize = 3;
@@ -130,9 +136,14 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         return SUCCESS;
     }
 
-    public String findPostById(){
-        System.out.println(deptId);
+    public String findPostsById(){
         posts = postService.findPostsByDid(deptId);
+        return SUCCESS;
+    }
+
+    public String findPostByPid(){
+        Post post = postService.findPostByPid(postId);
+        ServletActionContext.getRequest().setAttribute("ps",post);
         return SUCCESS;
     }
 
@@ -148,6 +159,17 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
         Staff staff = staffService.findStaffById(staffId);
         ServletActionContext.getRequest().setAttribute("staff",staff);
         return SUCCESS;
+    }
+
+    public void validateFindStaffById(){
+        String staffId = staff.getStaffId();
+        Staff staff = staffService.findStaffById(staffId);
+        Staff staff2 = (Staff) ServletActionContext.getContext().getSession().get("user");
+        String depId1 = staff.getPost().getDepartment().getDepId();
+        String depId2 = staff2.getPost().getDepartment().getDepId();
+        if (!depId2.equals(depId1)){
+            addActionError("你不是这个部门的管理可就憋点这个了");
+        }
     }
 
     public String find(){
@@ -172,7 +194,6 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
     }
 
     public String updateStaff(){
-        System.out.println(postId);
         Post post =  postService.findPostByPid(postId);
         staff.setPost(post);
         staffService.updateStaff(staff);
@@ -185,14 +206,11 @@ public class AdminAction extends ActionSupport implements ModelDriven<Staff>{
 				> 如果pc参数不存在,pc=1
 				> 如果pc存在,就转成int类型
 		 */
-        System.out.println(pageCode);
-
         if (pageCode == 0){
             return 1;
         }
         return pageCode;
     }
-
 
     public int getPageCode() {
         return pageCode;

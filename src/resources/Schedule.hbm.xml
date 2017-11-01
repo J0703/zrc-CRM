@@ -1,0 +1,17 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.xing.domain.Schedule">
+        <id name="scId">
+            <generator class="uuid"/>
+        </id>
+        <property name="uploadFileName"/>
+        <property name="uploadPath"/>
+        <property name="uploadTime"/>
+        <set name="classes" table="Classes" lazy="false" cascade="all" inverse="true">
+            <key column="scId"/>
+            <one-to-many class="com.xing.domain.Classes"/>
+        </set>
+    </class>
+</hibernate-mapping>

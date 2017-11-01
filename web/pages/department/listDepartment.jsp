@@ -44,7 +44,7 @@
         <tr>
             <td align="center">${department.depName}</td>
             <td width="7%" align="center">
-                <a href="${pageContext.request.contextPath}/pages/department/addOrEditDepartment.jsp"><img
+                <a href="${pageContext.request.contextPath}/findDept.action?depId=${department.depId}"><img
                         src="${pageContext.request.contextPath}/images/button/modify.gif" class="img"/></a>
             </td>
         </tr>

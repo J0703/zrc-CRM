@@ -57,12 +57,10 @@ public class BaseDaoImpl<T>  extends HibernateDaoSupport implements BaseDao<T> {
         SQLQuery sqlQuery = session.createSQLQuery(sql);
         if (params != null && !params.isEmpty()){
             for (String key : params.keySet()) {
-                System.out.println(params.get(key));
                 sqlQuery.setParameter(key,params.get(key));
             }
         }
         Number num = (Number)sqlQuery.uniqueResult();
-        System.out.println(num);
         return num.intValue();
     }
 

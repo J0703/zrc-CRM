@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -10,7 +11,6 @@
     <script src="../../js/jquery-3.2.1.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            alert("${ps.depId}");
             $.ajax({
                 type: "post",
                 url: "${pageContext.request.contextPath}/findAllDept.action",
@@ -111,7 +111,7 @@
         <td><img src="${pageContext.request.contextPath}/images/result.gif"/></td>
     </tr>
 </table>
-
+<s:actionerror/>
 <table width="100%" border="1">
     <tr class="henglan" style="font-weight:bold;">
         <td width="10%" align="center">员工姓名</td>
@@ -121,7 +121,6 @@
         <td width="10%" align="center">职务</td>
         <td width="10%" align="center">编辑</td>
     </tr>
-
     <c:forEach items="${pb.beanlist}" var="staff">
         <tr>
             <td align="center">${staff.staffName }</td>
@@ -150,7 +149,7 @@
                 <a href="find.action?pageCode=${pb.pageCode + 1}&deptId=${ps.depId}& postId=${ps.postId}& staffName=${ps.staffName}">[下一页]</a>&nbsp;&nbsp;
             </c:if>
             <a href="#">[尾页]</a>
-        </span>
+            </span>
         </td>
     </tr>
 </table>

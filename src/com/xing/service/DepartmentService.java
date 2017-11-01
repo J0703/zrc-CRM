@@ -12,5 +12,8 @@ import java.util.Map;
  */
 public interface DepartmentService {
     List<Department> findAllDept();
+    Department findDeptById(String id);
     PageBean<Department> findPageBean(int pageCode, int pageSize);
+    void saveInfo(Department department);
+    void updateDept(Department department);
 }
